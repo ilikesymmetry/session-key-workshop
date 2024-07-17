@@ -10,7 +10,11 @@ import {
 import { sendCalls } from "viem/experimental";
 import { baseSepolia } from "viem/chains";
 import { clickAbi } from "./abi/Click";
-import { useCallsStatus, useGrantPermissions } from "wagmi/experimental";
+import {
+  useCallsStatus,
+  useGrantPermissions,
+  useWriteContracts,
+} from "wagmi/experimental";
 
 function App() {
   const account = useAccount();
@@ -19,13 +23,14 @@ function App() {
   const { data: walletClient } = useWalletClient({ chainId: 84532 });
   const [submitted, setSubmitted] = useState(false);
   const [lastCallsId, setLastCallsId] = useState<string>();
+  const { writeContracts } = useWriteContracts();
 
   const { data: callsStatus } = useCallsStatus({
     id: lastCallsId as string,
     query: {
       enabled: !!lastCallsId,
       refetchInterval: (data) =>
-        data.state.data?.status === "CONFIRMED" ? false : 1000,
+        data.state.data?.status === "CONFIRMED" ? false : 100,
     },
   });
 
@@ -74,20 +79,28 @@ function App() {
       setSubmitted(true);
       setLastCallsId(undefined);
       try {
-        const callsId = await sendCalls(walletClient as WalletClient, {
-          account: account.address,
-          chain: baseSepolia,
-          calls: [
-            {
-              to: clickAddress,
-              value: 0n,
-              data: clickCallData,
+        writeContracts(
+          {
+            capabilities: {
+              permissions: {
+                context: permissionsContext,
+              },
             },
-          ],
-        });
-        if (callsId) {
-          setLastCallsId(callsId);
-        }
+            contracts: [
+              {
+                address: clickAddress, // allowedContract requested in grantPermissions
+                abi: clickAbi,
+                functionName: "click",
+                args: [],
+              },
+            ],
+          },
+          {
+            onSuccess: (data) => {
+              setLastCallsId(data);
+            },
+          }
+        );
       } catch (e: any) {
         console.error(e);
       }
