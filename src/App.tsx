@@ -10,7 +10,7 @@ import {
 import { sendCalls } from "viem/experimental";
 import { baseSepolia } from "viem/chains";
 import { clickAbi } from "./abi/Click";
-import { useGrantPermissions } from "wagmi/experimental";
+import { useCallsStatus, useGrantPermissions } from "wagmi/experimental";
 
 function App() {
   const account = useAccount();
@@ -18,7 +18,16 @@ function App() {
   const [permissionsContext, setPermissionsContext] = useState("");
   const { data: walletClient } = useWalletClient({ chainId: 84532 });
   const [submitted, setSubmitted] = useState(false);
-  const [lastUserOpHash, setLastUserOpHash] = useState<string>();
+  const [lastCallsId, setLastCallsId] = useState<string>();
+
+  const { data: callsStatus } = useCallsStatus({
+    id: lastCallsId as string,
+    query: {
+      enabled: !!lastCallsId,
+      refetchInterval: (data) =>
+        data.state.data?.status === "CONFIRMED" ? false : 1000,
+    },
+  });
 
   const { grantPermissionsAsync } = useGrantPermissions();
 
@@ -63,7 +72,7 @@ function App() {
   const click = async () => {
     if (account.address) {
       setSubmitted(true);
-      setLastUserOpHash(undefined);
+      setLastCallsId(undefined);
       try {
         const callsId = await sendCalls(walletClient as WalletClient, {
           account: account.address,
@@ -77,14 +86,7 @@ function App() {
           ],
         });
         if (callsId) {
-          const [userOpHash] = decodeAbiParameters(
-            [
-              { name: "userOpHash", type: "bytes32" },
-              { name: "chainId", type: "uint256" },
-            ],
-            callsId as Hex
-          );
-          setLastUserOpHash(userOpHash);
+          setLastCallsId(callsId);
         }
       } catch (e: any) {
         console.error(e);
@@ -139,9 +141,9 @@ function App() {
           </>
         )}
         {/* {!account.address && <h2 className="text-xl">Session key demo</h2>} */}
-        {lastUserOpHash && (
+        {callsStatus?.status === "CONFIRMED" && callsStatus.receipts?.[0] && (
           <a
-            href={`https://base-sepolia.blockscout.com/op/${lastUserOpHash}`}
+            href={`https://sepolia.basescan.org/tx/${callsStatus.receipts[0].transactionHash}`}
             target="_blank"
             className="absolute top-8 hover:underline"
           >
