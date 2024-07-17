@@ -62,10 +62,6 @@ function App() {
     setPermissionsContext(grantedPermissions?.[0]?.context);
   }
 
-  const login = async () => {
-    await connect({ connector: connectors[0] });
-  };
-
   const click = async () => {
     if (account.address) {
       setSubmitted(true);
@@ -106,7 +102,7 @@ function App() {
         {!account.address && (
           <button
             className="bg-white text-black p-2 rounded-lg w-36 text-lg"
-            onClick={login}
+            onClick={() => connect({ connector: connectors[0] })}
             type="button"
           >
             Log in
