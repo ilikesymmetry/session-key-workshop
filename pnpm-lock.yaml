@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@coinbase/wallet-sdk': npm:@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.1
+  '@coinbase/wallet-sdk': npm:@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.4
   wagmi: npm:@lukasrosario/wagmi@2.11.1-permissionedkeysalpha.2
   viem: npm:@lukasrosario/viem@2.17.4-permissionedkeysalpha.2
 
@@ -2378,8 +2378,8 @@ packages:
       - zod
     dev: false
 
-  /@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.1(typescript@5.5.3):
-    resolution: {integrity: sha512-UHY0dSuzDEIGf1W3WTv6bhyu84PMkvy9OCjuZuLIDvNqDgH6nM+aKoj4fC2Opsh/hOpKIKNvrIiBXTUF7K9iiA==}
+  /@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.4(typescript@5.5.3):
+    resolution: {integrity: sha512-cvv1L8fY5BiXzWtioaIvYJdJ3su7IafnA6fEMF9B0nZ5GZB1Jr4USw8kIwZjdVubRAf2zkXUrrmxyJHFrRcobA==}
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@simplewebauthn/server': 10.0.0
@@ -3719,7 +3719,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@coinbase/wallet-sdk': /@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.1(typescript@5.5.3)
+      '@coinbase/wallet-sdk': /@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.4(typescript@5.5.3)
       '@metamask/sdk': 0.26.4(react-dom@18.3.1)(react-native@0.74.3)(react@18.3.1)
       '@safe-global/safe-apps-provider': 0.18.3(typescript@5.5.3)
       '@safe-global/safe-apps-sdk': 9.1.0(typescript@5.5.3)
