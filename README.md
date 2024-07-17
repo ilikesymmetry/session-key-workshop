@@ -9,4 +9,4 @@ Call `click()` on [this contract](https://sepolia.basescan.org/address/0x67c97D1
 1. Fork this repo (comes with simple wagmi app built-in with `Click` ABI).
 2. Install depdendencies with `pnpm install`.
 3. Run app on [localhost:5173](http://localhost:5173) with `pnpm run dev`.
-4. Refer to [Session Key docs](https://smartwallet.dev) and build!
+4. Refer to [Session Key docs](https://smart-wallet-docs-git-conner-session-keys-coinbase-vercel.vercel.app/guides/session-keys) and build!
