@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
   WalletClient,
   parseUnits,
-  toHex,
   encodeFunctionData,
   decodeAbiParameters,
   Hex,
@@ -11,6 +10,7 @@ import {
 import { sendCalls } from "viem/experimental";
 import { baseSepolia } from "viem/chains";
 import { clickAbi } from "./abi/Click";
+import { useGrantPermissions } from "wagmi/experimental";
 
 function App() {
   const account = useAccount();
@@ -20,6 +20,8 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [lastUserOpHash, setLastUserOpHash] = useState<string>();
 
+  const { grantPermissionsAsync } = useGrantPermissions();
+
   const clickAddress = "0x67c97D1FB8184F038592b2109F854dfb09C77C75";
   const clickPermissionArgs = "0x";
   const clickCallData = encodeFunctionData({
@@ -28,38 +30,34 @@ function App() {
   });
 
   async function grantPermissions() {
-    const grantedPermissions = (await walletClient?.request({
-      method: "wallet_grantPermissions",
-      params: {
-        // @ts-ignore
-        permissions: [
-          {
-            account: account.address,
-            chainId: toHex(84532),
-            expiry: 95778400000,
-            signer: {
-              type: "wallet",
-            },
-            permission: {
-              type: "call-with-permission",
-              data: {
-                allowedContract: clickAddress,
-                permissionArgs: clickPermissionArgs,
-              },
-            },
-            policies: [
-              {
-                type: "native-token-spend-limit",
-                data: {
-                  allowance: toHex(parseUnits("1", 18)),
-                },
-              },
-            ],
+    const result = await grantPermissionsAsync({
+      permissions: [
+        {
+          account: account.address!,
+          chainId: 84532,
+          expiry: 95778400000,
+          signer: {
+            type: "wallet",
           },
-        ],
-      },
-    })) as any[];
-    setPermissionsContext(grantedPermissions?.[0]?.context);
+          permission: {
+            type: "call-with-permission",
+            data: {
+              allowedContract: clickAddress,
+              permissionArgs: clickPermissionArgs,
+            },
+          },
+          policies: [
+            {
+              type: "native-token-spend-limit",
+              data: {
+                allowance: parseUnits("1", 18),
+              },
+            },
+          ],
+        },
+      ],
+    });
+    setPermissionsContext(result?.context);
   }
 
   const click = async () => {
