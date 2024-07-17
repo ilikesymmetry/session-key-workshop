@@ -40,6 +40,8 @@
     "vite": "^4.4.9"
   },
   "resolutions": {
-    "@coinbase/wallet-sdk": "npm:@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.1"
+    "@coinbase/wallet-sdk": "npm:@lukasrosario/wallet-sdk@4.0.4-permissionedkeysalpha.4",
+    "wagmi": "npm:@lukasrosario/wagmi@2.11.1-permissionedkeysalpha.2",
+    "viem": "npm:@lukasrosario/viem@2.17.4-permissionedkeysalpha.2"
   }
 }
