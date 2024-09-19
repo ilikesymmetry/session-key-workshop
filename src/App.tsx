@@ -128,7 +128,7 @@ export default function App() {
             <Button onClick={() => grantPermissions()}>Grant Permissions</Button>
           ) : (
             <div className="relative flex flex-col items-center justify-center">
-              <Button onClick={() => sendCalls()} disabled={submitted || (!!callsId && callsStatus && callsStatus.status !== "CONFIRMED")} >Send Calls</Button>
+              <Button onClick={() => sendCalls()} disabled={submitted || (!!callsId && callsStatus?.status !== "CONFIRMED")} >Send Calls</Button>
             </div>
           )}
           {callsStatus && callsStatus.status === "CONFIRMED" && ( 
