@@ -1,30 +1,96 @@
-export const clickAddress = "0x67c97D1FB8184F038592b2109F854dfb09C77C75";
+export const clickAddress = "0x8Af2FA0c32891F1b32A75422eD3c9a8B22951f2F";
 
 export const clickAbi = [
   {
-    type: "function",
-    name: "callWithPermission",
+    type: "constructor",
     inputs: [
-      { name: "", type: "bytes32", internalType: "bytes32" },
-      { name: "", type: "bytes", internalType: "bytes" },
-      { name: "call", type: "bytes", internalType: "bytes" },
+      { name: "initialOwner", type: "address", internalType: "address" },
     ],
-    outputs: [{ name: "", type: "bytes", internalType: "bytes" }],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
     name: "click",
     inputs: [],
     outputs: [],
+    stateMutability: "payable",
+  },
+  {
+    type: "function",
+    name: "getRequestAuthorization",
+    inputs: [
+      { name: "hash", type: "bytes32", internalType: "bytes32" },
+      { name: "signature", type: "bytes", internalType: "bytes" },
+    ],
+    outputs: [
+      {
+        name: "",
+        type: "uint8",
+        internalType: "enum IOffchainAuthorization.Authorization",
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "owner",
+    inputs: [],
+    outputs: [{ name: "", type: "address", internalType: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "permissionedCall",
+    inputs: [{ name: "call", type: "bytes", internalType: "bytes" }],
+    outputs: [{ name: "res", type: "bytes", internalType: "bytes" }],
+    stateMutability: "payable",
+  },
+  {
+    type: "function",
+    name: "renounceOwnership",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "supportsPermissionedCallSelector",
+    inputs: [{ name: "", type: "bytes4", internalType: "bytes4" }],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
+    stateMutability: "pure",
+  },
+  {
+    type: "function",
+    name: "transferOwnership",
+    inputs: [{ name: "newOwner", type: "address", internalType: "address" }],
+    outputs: [],
     stateMutability: "nonpayable",
   },
   {
     type: "event",
-    name: "Click",
+    name: "Clicked",
     inputs: [
       {
-        name: "sender",
+        name: "account",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "OwnershipTransferred",
+    inputs: [
+      {
+        name: "previousOwner",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "newOwner",
         type: "address",
         indexed: true,
         internalType: "address",
@@ -38,4 +104,19 @@ export const clickAbi = [
     inputs: [{ name: "target", type: "address", internalType: "address" }],
   },
   { type: "error", name: "FailedCall", inputs: [] },
-] as const;
+  {
+    type: "error",
+    name: "NotPermissionCallable",
+    inputs: [{ name: "selector", type: "bytes4", internalType: "bytes4" }],
+  },
+  {
+    type: "error",
+    name: "OwnableInvalidOwner",
+    inputs: [{ name: "owner", type: "address", internalType: "address" }],
+  },
+  {
+    type: "error",
+    name: "OwnableUnauthorizedAccount",
+    inputs: [{ name: "account", type: "address", internalType: "address" }],
+  },
+];
