@@ -2,11 +2,16 @@
 
 ### Goal
 
-Call `click()` on [this contract](https://sepolia.basescan.org/address/0x8Af2FA0c32891F1b32A75422eD3c9a8B22951f2F) with a Session Key.
+Build a simple app that leverages Session Keys.
 
-### Instructions
+### Local Setup
 
-1. Fork this repo (simple wagmi app with required dependencies and starter files).
+**Pre-requisites:**
+1. Install node ([guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)).
+2. Install `pnpm` with `npm install -g pnpm`
+
+**Instructions:**
+1. Clone this repo.
 2. Install depdendencies with `pnpm install`.
 3. Run app on [localhost:5173](http://localhost:5173) with `pnpm run dev`.
 4. Refer to [Session Key docs](https://www.smartwallet.dev/guides/session-keys) and build!
